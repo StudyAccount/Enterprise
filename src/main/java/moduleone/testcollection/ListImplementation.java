@@ -1,6 +1,7 @@
 package moduleone.testcollection;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 /**
@@ -18,12 +19,6 @@ public class ListImplementation {
     }
 
     public long addingSpeed(int value, int index){
-
-//        Random randomValue = new Random();
-//        int addedValue = randomValue.nextInt();
-//
-//        Random randomPosition = new Random(list.size());
-//        int position = randomPosition.nextInt();
 
         long startTime = System.nanoTime();
 
@@ -67,30 +62,58 @@ public class ListImplementation {
         return estimatedTime;
     }
 
-    public long populatingSpeed(int size){
+    public long populatingSpeed(){
+
+        ListParent.erraseCollection(list);
 
         long startTime = System.nanoTime();
 
-        fillCollection();
+        ListParent.fillCollection(list, size);
 
         long estimatedTime = System.nanoTime() - startTime;
 
         return estimatedTime;
     }
 
-    public List fillCollection() {
+    public long speedOfListIteratorAdd(int value, int index){
 
-        int i = 0;
+        ListIterator iterator = list.listIterator();
+        int i =0;
 
-        while (i < size){
-
-            Random element = new Random();
-            list.add(element.nextInt());
+        while (i <= index){
+            iterator.next();
             i++;
         }
 
-        return list;
+        long startTime = System.nanoTime();
+
+        iterator.add(value);
+
+        long estimatedTime = System.nanoTime() - startTime;
+
+        return estimatedTime;
     }
 
+    public long speedOfListIteratorRemove(int index){
+
+        ListIterator iterator = list.listIterator();
+        int i=0;
+
+        while (i <= index){
+            iterator.next();
+            i++;
+        }
+
+        long startTime = System.nanoTime();
+
+        try {
+            iterator.remove();
+        }catch (IllegalStateException e){
+
+        }
+        long estimatedTime = System.nanoTime() - startTime;
+
+        return estimatedTime;
+    }
 
 }
