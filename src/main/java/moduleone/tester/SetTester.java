@@ -25,7 +25,7 @@ public class SetTester {
 
     }
 
-    public static Formatter tester(Set set, int size){
+    private static Formatter tester(Set set, int size){
 
         SetParent.fillCollection(set, size);
 

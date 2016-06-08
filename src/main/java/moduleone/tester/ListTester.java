@@ -25,7 +25,7 @@ public class ListTester {
         return tester(arrayList, collectionSize).toString();
     }
 
-    public static Formatter tester(List list, int size){
+    private static Formatter tester(List list, int size){
 
         ListParent.fillCollection(list, size);
 
