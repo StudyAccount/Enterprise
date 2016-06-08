@@ -1,6 +1,6 @@
 package moduleone;
 
-import moduleone.tester.Tester;
+import moduleone.output.Output;
 
 /**
  * Created by SleepWalker on 06.06.2016.
@@ -8,7 +8,11 @@ import moduleone.tester.Tester;
 public class Runner {
     public static void main(String[] args) {
 
-        Tester.tester();
+
+        Output.outputWriter(10000);
+        Output.outputWriter(100000);
+        Output.outputWriter(1000000);
+
 
     }
 }

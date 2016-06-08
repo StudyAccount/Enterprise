@@ -22,7 +22,7 @@ public class ListParent {
         return list;
     }
 
-    public static void erraseCollection(List list){
+    public static void eraseCollection(List list){
 
         list.clear();
     }

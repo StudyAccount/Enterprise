@@ -2,7 +2,6 @@ package moduleone.testcollection;
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Random;
 
 /**
  * Created by SleepWalker on 06.06.2016.
@@ -11,7 +10,6 @@ public class ListImplementation {
 
     private int size;
     private List list;
-    private int testNumber;
 
     public ListImplementation(List list, int size) {
         this.list = list;
@@ -64,7 +62,7 @@ public class ListImplementation {
 
     public long populatingSpeed(){
 
-        ListParent.erraseCollection(list);
+        ListParent.eraseCollection(list);
 
         long startTime = System.nanoTime();
 
@@ -78,9 +76,9 @@ public class ListImplementation {
     public long speedOfListIteratorAdd(int value, int index){
 
         ListIterator iterator = list.listIterator();
-        int i =0;
+        int i = 0;
 
-        while (i <= index){
+        while (i < index){
             iterator.next();
             i++;
         }
