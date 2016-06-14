@@ -1,5 +1,7 @@
 package moduleone.testcollection;
 
+import moduleone.helper.CollectionHelper;
+
 import java.util.List;
 import java.util.ListIterator;
 
@@ -62,11 +64,11 @@ public class ListImplementation {
 
     public long populatingSpeed(){
 
-        ListParent.eraseCollection(list);
+        CollectionHelper.eraseCollection(list);
 
         long startTime = System.nanoTime();
 
-        ListParent.fillCollection(list, size);
+        CollectionHelper.fillCollection(list, size);
 
         long estimatedTime = System.nanoTime() - startTime;
 

@@ -1,5 +1,7 @@
 package moduleone.testcollection;
 
+import moduleone.helper.CollectionHelper;
+
 import java.util.Set;
 
 /**
@@ -50,11 +52,11 @@ public class SetImplementation {
 
     public long populatingSpeed(){
 
-        SetParent.eraseCollection(set);
+        CollectionHelper.eraseCollection(set);
 
         long startTime = System.nanoTime();
 
-        SetParent.fillCollection(set, size);
+        CollectionHelper.fillCollection(set, size);
 
         long estimatedTime = System.nanoTime() - startTime;
 

@@ -1,7 +1,7 @@
 package moduleone.tester;
 
+import moduleone.helper.CollectionHelper;
 import moduleone.testcollection.SetImplementation;
-import moduleone.testcollection.SetParent;
 
 import java.util.*;
 
@@ -27,7 +27,7 @@ public class SetTester {
 
     private static Formatter tester(Set set, int size){
 
-        SetParent.fillCollection(set, size);
+        CollectionHelper.fillCollection(set, size);
 
         SetImplementation setImplementation = new SetImplementation(set, size);
 

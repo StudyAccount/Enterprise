@@ -1,7 +1,7 @@
 package moduleone.tester;
 
 import moduleone.testcollection.ListImplementation;
-import moduleone.testcollection.ListParent;
+import moduleone.helper.CollectionHelper;
 
 import java.util.*;
 
@@ -27,7 +27,7 @@ public class ListTester {
 
     private static Formatter tester(List list, int size){
 
-        ListParent.fillCollection(list, size);
+        CollectionHelper.fillCollection(list, size);
 
         ListImplementation listImplementation = new ListImplementation(list, size);
 
