@@ -1,7 +1,11 @@
 package moduleone.tester;
 
 import moduleone.helper.CollectionHelper;
-import moduleone.testcollection.SetImplementation;
+import moduleone.output.Collector;
+import moduleone.testcollection.setImplementation.SetAddTest;
+import moduleone.testcollection.setImplementation.SetContainsTest;
+import moduleone.testcollection.setImplementation.SetPopulateTest;
+import moduleone.testcollection.setImplementation.SetRemoveTest;
 
 import java.util.*;
 
@@ -15,27 +19,37 @@ public class SetTester {
     public static String hashSetCollection(int collectionSize){
         Set<Integer> hashSet = new HashSet<Integer>();
 
-        return tester(hashSet, collectionSize).toString();
+        ArrayList<Long> resultArray = testAggregator(hashSet, collectionSize);
+
+        Formatter result = Collector.collector(resultArray);
+
+        return result.toString();
     }
 
     public static String treeSetCollection(int collectionSize){
         Set<Integer> treeSet = new TreeSet<Integer>();
 
-        return  tester(treeSet, collectionSize).toString();
+        ArrayList<Long> resultArray = testAggregator(treeSet, collectionSize);
 
+        Formatter result = Collector.collector(resultArray);
+
+        return result.toString();
     }
 
-    private static Formatter tester(Set set, int size){
+    private static ArrayList<Long> testAggregator (Set set, int size){
+
+        Random rand = new Random();
 
         CollectionHelper.fillCollection(set, size);
 
-        SetImplementation setImplementation = new SetImplementation(set, size);
+        int position = rand.nextInt(set.size() - 1);
+        int addedValue = rand.nextInt();
 
-        Random randomValue = new Random();
-        int addedValue = randomValue.nextInt();
+        SetAddTest setAddTest = new SetAddTest(set, size);
 
-        Random randomPosition = new Random();
-        int position = randomPosition.nextInt(set.size() - 1);
+        SetRemoveTest setRemoveTest = new SetRemoveTest(set, size);
+        SetContainsTest setContainsTest = new SetContainsTest(set, size);
+        SetPopulateTest setPopulateTest = new SetPopulateTest(set, size);
 
         int i = 0;
         long addingTime = 0;
@@ -45,27 +59,25 @@ public class SetTester {
 
         while (i < NUMBER_OF_ITERATIONS){
 
-            addingTime += setImplementation.addingSpeed(addedValue);
-            removingTime += setImplementation.removingSpeed(position);
-            timeOfMethodContains += setImplementation.speedOfMethodContains(addedValue);
-            populatingTime += setImplementation.populatingSpeed();
+
+            addingTime += setAddTest.getTime(position, addedValue);
+            removingTime += setRemoveTest.getTime(position, addedValue);
+            timeOfMethodContains += setContainsTest.getTime(position, addedValue);
+            populatingTime += setPopulateTest.getTime(position, addedValue);
+
             i++;
         }
 
-//        StringBuilder out = new StringBuilder();
-        Formatter out = new Formatter();
+        ArrayList<Long> outputArray = new ArrayList();
+        outputArray.add(addingTime);
+        outputArray.add(null);
+        outputArray.add(removingTime);
+        outputArray.add(timeOfMethodContains);
+        outputArray.add(populatingTime);
+        outputArray.add(null);
+        outputArray.add(null);
 
-        out.format("| %-12d| %-12s| %-12d| %-12d| %-12d| %-12s| %-16s|",
-                addingTime/NUMBER_OF_ITERATIONS, "", removingTime/NUMBER_OF_ITERATIONS,
-                timeOfMethodContains/NUMBER_OF_ITERATIONS,  populatingTime/NUMBER_OF_ITERATIONS,
-                "", "");
-
-//        out.append(addingTime/NUMBER_OF_ITERATIONS + " " +
-//                removingTime/NUMBER_OF_ITERATIONS + " " +
-//                timeOfMethodContains/NUMBER_OF_ITERATIONS + " " +
-//                populatingTime/NUMBER_OF_ITERATIONS);
-
-        return out;
+        return outputArray;
     }
 
 }

@@ -1,7 +1,7 @@
 package moduleone.tester;
 
 import moduleone.helper.CollectionHelper;
-import moduleone.testcollection.ListImplementation;
+import moduleone.output.Collector;
 import moduleone.testcollection.listimplementation.*;
 
 import java.util.*;
@@ -17,21 +17,24 @@ public class ListTester {
     public static String arrayListCollection(int collectionSize){
         List<Integer> arrayList = new ArrayList<Integer>();
 
-        testAggregator(arrayList, collectionSize);
+        ArrayList<Long> resultArray = testAggregator(arrayList, collectionSize);
 
-        return tester(arrayList, collectionSize).toString();
+        Formatter result = Collector.collector(resultArray);
+
+        return result.toString();
     }
 
     public static String linkedListCollection(int collectionSize){
         List<Integer> arrayList = new LinkedList<Integer>();
 
-        long[] list = testAggregator(arrayList, collectionSize);
+        ArrayList<Long> resultArray = testAggregator(arrayList, collectionSize);
 
-        return tester(arrayList, collectionSize).toString();
-//        return  list;
+        Formatter result = Collector.collector(resultArray);
+
+        return result.toString();
     }
 
-    private static long[] testAggregator (List list, int size){
+    private static ArrayList<Long> testAggregator (List list, int size){
 
         Random rand = new Random();
 
@@ -70,73 +73,17 @@ public class ListTester {
             i++;
         }
 
-        long[] outputArray = new long[7];
+        ArrayList<Long> outputArray = new ArrayList();
+        outputArray.add(addingTime);
+        outputArray.add(gettingTime);
+        outputArray.add(removingTime);
+        outputArray.add(timeOfMethodContains);
+        outputArray.add(populatingTime);
+        outputArray.add(timeOfListIteratorAdd);
+        outputArray.add(timeOfListIteratorRemove);
 
-        outputArray[0] = addingTime/NUMBER_OF_ITERATIONS;
-        outputArray[1] = (gettingTime/NUMBER_OF_ITERATIONS);
-        outputArray[2] = (removingTime/NUMBER_OF_ITERATIONS);
-        outputArray[3] = (timeOfMethodContains/NUMBER_OF_ITERATIONS);
-        outputArray[4] = (populatingTime/NUMBER_OF_ITERATIONS);
-        outputArray[5] = (timeOfListIteratorAdd/NUMBER_OF_ITERATIONS);
-        outputArray[6] = (timeOfListIteratorRemove/NUMBER_OF_ITERATIONS);
 
         return outputArray;
-    }
-
-
-
-
-
-
-    private static Formatter tester(List list, int size){
-
-        CollectionHelper.fillCollection(list, size);
-
-        ListImplementation listImplementation = new ListImplementation(list, size);
-
-        Random randomValue = new Random();
-        int addedValue = randomValue.nextInt();
-
-        Random randomPosition = new Random();
-        int position = randomPosition.nextInt(list.size() - 1);
-
-        int i = 0;
-        long addingTime = 0;
-        long gettingTime = 0;
-        long removingTime = 0;
-        long timeOfMethodContains =0;
-        long populatingTime = 0;
-        long timeOfListIteratorAdd = 0;
-        long timeOfListIteratorRemove = 0;
-
-        while (i < NUMBER_OF_ITERATIONS){
-
-            addingTime += listImplementation.addingSpeed(addedValue, position);
-            gettingTime += listImplementation.gettingSpeed(position);
-            removingTime += listImplementation.removingSpeed(position);
-            timeOfMethodContains += listImplementation.speedOfMethodContains(addedValue);
-            populatingTime += listImplementation.populatingSpeed();
-            timeOfListIteratorAdd += listImplementation.speedOfListIteratorAdd(addedValue, position);
-            timeOfListIteratorRemove += listImplementation.speedOfListIteratorRemove(position);
-            i++;
-        }
-
-//        StringBuilder out = new StringBuilder();
-        Formatter out = new Formatter();
-        out.format("| %-12d| %-12d| %-12d| %-12d| %-12d| %-12d| %-16d|",
-                addingTime/NUMBER_OF_ITERATIONS, gettingTime/NUMBER_OF_ITERATIONS, removingTime/NUMBER_OF_ITERATIONS,
-                timeOfMethodContains/NUMBER_OF_ITERATIONS,  populatingTime/NUMBER_OF_ITERATIONS,
-                timeOfListIteratorAdd/NUMBER_OF_ITERATIONS, timeOfListIteratorRemove/NUMBER_OF_ITERATIONS);
-
-//        out.append(addingTime/NUMBER_OF_ITERATIONS + " " +
-//                gettingTime/NUMBER_OF_ITERATIONS + " " +
-//                removingTime/NUMBER_OF_ITERATIONS + " " +
-//                timeOfMethodContains/NUMBER_OF_ITERATIONS + " " +
-//                populatingTime/NUMBER_OF_ITERATIONS + " " +
-//                timeOfListIteratorAdd/NUMBER_OF_ITERATIONS + " " +
-//                timeOfListIteratorRemove/NUMBER_OF_ITERATIONS);
-
-        return out;
     }
 
 }

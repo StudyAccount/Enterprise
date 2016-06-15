@@ -1,7 +1,6 @@
 package moduleone.output;
 
-import moduleone.tester.ListTester;
-
+import java.util.ArrayList;
 import java.util.Formatter;
 
 /**
@@ -9,33 +8,21 @@ import java.util.Formatter;
  */
 public class Collector {
 
-    private static Formatter tester(int size){
+    public static Formatter collector(ArrayList<Long> list){
 
-        long[] linkedListCollection = ListTester.linkedListCollection(size);
+        Long addingTime = list.get(0);
+        Long gettingTime = list.get(1);
+        Long removingTime = list.get(2);
+        Long timeOfMethodContains = list.get(3);
+        Long populatingTime = list.get(4);
+        Long timeOfListIteratorAdd = list.get(5);
+        Long timeOfListIteratorRemove = list.get(6);
 
-        long addingTime = linkedListCollection[0];
-        long gettingTime = linkedListCollection[1];
-        long removingTime = linkedListCollection[2];
-        long timeOfMethodContains = linkedListCollection[3];
-        long populatingTime = linkedListCollection[4];
-        long timeOfListIteratorAdd = linkedListCollection[5];
-        long timeOfListIteratorRemove = linkedListCollection[6];
-
-
-//        StringBuilder out = new StringBuilder();
         Formatter out = new Formatter();
         out.format("| %-12d| %-12d| %-12d| %-12d| %-12d| %-12d| %-16d|",
                 addingTime, gettingTime, removingTime,
                 timeOfMethodContains,  populatingTime,
                 timeOfListIteratorAdd, timeOfListIteratorRemove);
-
-//        out.append(addingTime/NUMBER_OF_ITERATIONS + " " +
-//                gettingTime/NUMBER_OF_ITERATIONS + " " +
-//                removingTime/NUMBER_OF_ITERATIONS + " " +
-//                timeOfMethodContains/NUMBER_OF_ITERATIONS + " " +
-//                populatingTime/NUMBER_OF_ITERATIONS + " " +
-//                timeOfListIteratorAdd/NUMBER_OF_ITERATIONS + " " +
-//                timeOfListIteratorRemove/NUMBER_OF_ITERATIONS);
 
         return out;
     }
