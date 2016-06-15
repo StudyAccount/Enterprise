@@ -5,7 +5,7 @@ package moduleone.testcollection;
  */
 public interface Test {
 
-    void makeTest();
+//    void operationTest(int index, int value);
 
-    long fixTime(int value, int index);
+    long getTime(int index, int value);
 }

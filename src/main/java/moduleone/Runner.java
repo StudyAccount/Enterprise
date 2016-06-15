@@ -9,9 +9,9 @@ public class Runner {
     public static void main(String[] args) {
 
 
-        Output.outputWriter(10000);
-        Output.outputWriter(100000);
-        Output.outputWriter(1000000);
+        Output.outputWriter(10);
+//        Output.outputWriter(100000);
+//        Output.outputWriter(1000000);
 
 
     }

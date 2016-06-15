@@ -49,6 +49,9 @@ public class Output {
     private static Formatter dataOutput(int size) {
         String arrayListCollection = ListTester.arrayListCollection(size);
         String linkedListCollection = ListTester.linkedListCollection(size);
+
+
+
         String hashSetCollection = SetTester.hashSetCollection(size);
         String treeSetCollection = SetTester.treeSetCollection(size);
 
