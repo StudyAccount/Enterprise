@@ -35,9 +35,10 @@ public class ExecutorImplementation<T> implements Executor<T> {
 
         isExecuted = true;
 
-        tasks.forEach(Task::execute);
+//        tasks.forEach(Task::execute);
 
         if (validator != null) {
+
             for (Task<? extends T> task : tasks) {
 
                 if (validator.isValid(task.getResult())) {
