@@ -3,9 +3,9 @@ package moduletwo;
 /**
  * Created by User on 10.06.2016.
  */
-public interface Validator {
+public interface Validator<T> {
 
     // Валидирует переданое значение
-    boolean isValid(Object result);
+    boolean isValid(T result);
 
 }
