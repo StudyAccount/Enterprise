@@ -1,4 +1,6 @@
-package moduletwo;
+package moduletwo.implementations;
+
+import moduletwo.interfaces.Task;
 
 /**
  * Created by User on 18.06.2016.

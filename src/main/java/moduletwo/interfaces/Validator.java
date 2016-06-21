@@ -1,4 +1,4 @@
-package moduletwo;
+package moduletwo.interfaces;
 
 /**
  * Created by User on 10.06.2016.
