@@ -11,9 +11,8 @@ public class LongTask implements Task<Long> {
     private Long output;
     private final static Long SOME_EXTRA_LONG_NUMBER = 10L;
 
-    public LongTask(Long input, Long output) {
+    public LongTask(Long input) {
         this.input = input;
-        this.output = output;
     }
 
 

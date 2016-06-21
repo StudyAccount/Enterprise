@@ -22,14 +22,14 @@ public class ExecutorImplementation<T> implements Executor<T> {
     @Override
     public void addTask(Task<? extends T> task) throws ExecutorException {
 
-        isExecutorCalled("Method execute() was already called");
+        isExecutorCalled();
         tasks.add(task);
     }
 
     @Override
     public void addTask(Task<? extends T> task, Validator<? super T> validator) throws ExecutorException {
 
-        isExecutorCalled("Method execute() was already called");
+        isExecutorCalled();
         addTask(task);
         this.validator = validator;
     }
@@ -39,8 +39,6 @@ public class ExecutorImplementation<T> implements Executor<T> {
     public void execute() {
 
         isExecuted = true;
-
-//        tasks.forEach(Task::execute);
 
         if (validator != null) {
 
@@ -60,23 +58,30 @@ public class ExecutorImplementation<T> implements Executor<T> {
     @Override
     public List getValidResults() throws ExecutorException{
 
-        isExecutorCalled("Method execute() was not called yet");
+        isExecutorWasNotCalled();
         return validResults;
     }
 
     @Override
     public List getInvalidResults() throws ExecutorException{
 
-        isExecutorCalled("Method execute() was not called yet");
+        isExecutorWasNotCalled();
         return inValidResults;
     }
 
-    private void isExecutorCalled(String message) throws ExecutorException {
+    private void isExecutorCalled() throws ExecutorException {
 
         if (isExecuted) {
 
-            throw new ExecutorException(message);
+            throw new ExecutorException("Method execute() was already called");
         }
     }
 
+    private void isExecutorWasNotCalled() throws ExecutorException {
+
+        if (!isExecuted) {
+
+            throw new ExecutorException("Method execute() was not called yet");
+        }
+    }
 }
