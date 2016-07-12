@@ -9,6 +9,11 @@ import java.util.concurrent.*;
  */
 public class SquareSumCounter implements SquareSum {
 
+    public static void main(String[] args) {
+        int[] u = {1,2,3, 4};
+        System.out.println("result " + new SquareSumCounter().getSquareSum(u, 2));
+    }
+
     @Override
     public long getSquareSum(int[] values, int numberOfThreads) {
 
@@ -20,62 +25,59 @@ public class SquareSumCounter implements SquareSum {
 
         long result = 0;
         int startIndex = 0;
-        int endIndex = parties - 1;
+        int endIndex = parties;
 
         for (int i = 0; i < numberOfThreads; i++){
 
-            Future<Long> f = executorService.submit(() -> {
+            singleThreadStarter(values, executorService, phaser, tempResults, startIndex, endIndex);
+            startIndex += parties;
+            endIndex += parties;
+        }
 
-                long sum = 0;
-                int j = startIndex;
+        phaser.arriveAndDeregister();
+        executorService.shutdown();
 
-                while (j < endIndex){
+        for (long sums:tempResults) {
 
-                    sum+= Math.pow(values[j], 2);
-                    j++;
-                }
-
-                tempResults.add(sum);
-                phaser.arriveAndAwaitAdvance();
-                return sum;
-            });
-
-
-            try {
-                long tempResult = f.get();
-                System.out.printf("temp " + tempResult);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-
-            phaser.arriveAndDeregister();
-            executorService.shutdown();
-
-            for (long sums:tempResults) {
-
-                result += sums;
-            }
-
+            result += sums;
         }
 
         return result;
     }
 
+    private void singleThreadStarter(int[] values, ExecutorService executorService, Phaser phaser,
+                                     List<Long> tempResults, int startIndex, int endIndex) {
+        executorService.execute(() -> {
 
-    public int phaserPartiesCalculator(int[] values, int numberOfThreads){
+            long sum = 0;
+            int j = startIndex;
 
-        int parties = 0;
+            while (j < endIndex){
+
+                sum+= Math.pow(values[j], 2);
+                j++;
+            }
+
+            tempResults.add(sum);
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(sum);
+            phaser.arriveAndAwaitAdvance();
+        });
+    }
+
+
+    private int phaserPartiesCalculator(int[] values, int numberOfThreads){
+
+        int parties;
 
         if (values.length >= numberOfThreads){
 
             if (values.length % numberOfThreads == 0){
 
-                parties = numberOfThreads/values.length;
+                parties = values.length/numberOfThreads;
             } else {
 
-                parties = numberOfThreads/values.length + 1;
+                parties = values.length/numberOfThreads + 1;
             }
         } else {
 
