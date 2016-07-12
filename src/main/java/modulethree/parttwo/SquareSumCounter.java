@@ -10,6 +10,12 @@ import java.util.concurrent.Phaser;
  */
 public class SquareSumCounter implements SquareSum {
 
+    public static void main(String[] args) {
+        int[] n = {1, 2, 3};
+        int i = 2;
+        System.out.println("bla " + new SquareSumCounter().getSquareSum(n, i));
+    }
+
     @Override
     public long getSquareSum(int[] values, int numberOfThreads) {
 
@@ -25,6 +31,11 @@ public class SquareSumCounter implements SquareSum {
         long result = 0;
         int startIndex = 0;
         int endIndex = capacity;
+
+        if (numberOfThreads > values.length){
+
+            numberOfThreads = values.length;
+        }
 
         for (int i = 0; i < numberOfThreads; i++){
 

@@ -31,10 +31,12 @@ public class SquareSumCounterTest {
         int[] a = {5, 5, 3, 4, 5, 6, 7, 8, 9};
         int[] b = {0, 0, 1};
         int[] c = {3, -1, -4};
+        int[] d = {3, -1};
         return Arrays.asList(new Object[][]{
                 {a, 3, 330},
                 {b, 1, 1},
                 {c, 3, 26},
+                {d, 3, 10},
         });
 
     }
