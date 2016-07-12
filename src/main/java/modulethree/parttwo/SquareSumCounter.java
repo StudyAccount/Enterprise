@@ -1,40 +1,39 @@
 package modulethree.parttwo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Phaser;
 
 /**
  * Created by User on 07.07.2016.
  */
 public class SquareSumCounter implements SquareSum {
 
-    public static void main(String[] args) {
-        int[] u = {1,2,3, 4};
-        System.out.println("result " + new SquareSumCounter().getSquareSum(u, 2));
-    }
-
     @Override
     public long getSquareSum(int[] values, int numberOfThreads) {
 
-        int parties = phaserPartiesCalculator(values, numberOfThreads);
-        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-        Phaser phaser = new Phaser(parties);
+        int[] attributes = attributesCalculator(values, numberOfThreads);
+        int parties = attributes[0];
+        int capacity = attributes[1];
 
-        List<Long> tempResults = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+        Phaser phaser = new Phaser(parties + 1);
+
+        CopyOnWriteArrayList<Long> tempResults = new CopyOnWriteArrayList<>();
 
         long result = 0;
         int startIndex = 0;
-        int endIndex = parties;
+        int endIndex = capacity;
 
         for (int i = 0; i < numberOfThreads; i++){
 
             singleThreadStarter(values, executorService, phaser, tempResults, startIndex, endIndex);
-            startIndex += parties;
-            endIndex += parties;
+            startIndex += capacity;
+            endIndex += capacity;
         }
 
-        phaser.arriveAndDeregister();
+        phaser.arriveAndAwaitAdvance();
         executorService.shutdown();
 
         for (long sums:tempResults) {
@@ -46,9 +45,8 @@ public class SquareSumCounter implements SquareSum {
     }
 
     private void singleThreadStarter(int[] values, ExecutorService executorService, Phaser phaser,
-                                     List<Long> tempResults, int startIndex, int endIndex) {
+                                     CopyOnWriteArrayList<Long> tempResults, int startIndex, int endIndex) {
         executorService.execute(() -> {
-
             long sum = 0;
             int j = startIndex;
 
@@ -59,32 +57,29 @@ public class SquareSumCounter implements SquareSum {
             }
 
             tempResults.add(sum);
-            System.out.println(Thread.currentThread().getName());
-            System.out.println(sum);
             phaser.arriveAndAwaitAdvance();
         });
     }
 
-
-    private int phaserPartiesCalculator(int[] values, int numberOfThreads){
+    private int[] attributesCalculator(int[] values, int numberOfThreads){
 
         int parties;
+        int capacity;
+        int[] attributes = new int[2];
 
         if (values.length >= numberOfThreads){
 
-            if (values.length % numberOfThreads == 0){
-
-                parties = values.length/numberOfThreads;
-            } else {
-
-                parties = values.length/numberOfThreads + 1;
-            }
+            parties = numberOfThreads;
+            capacity = values.length/numberOfThreads;
         } else {
 
-            parties = numberOfThreads;
+            parties = values.length;
+            capacity = 1;
         }
+        attributes[0] = parties;
+        attributes[1] = capacity;
 
-        return parties;
+        return attributes;
     }
 
 }
