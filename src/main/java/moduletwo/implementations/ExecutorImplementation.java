@@ -22,18 +22,17 @@ public class ExecutorImplementation<T> implements Executor<T> {
     @Override
     public void addTask(Task<? extends T> task) throws ExecutorException {
 
-        isExecutorCalled();
+        checkIfExecutorWasCalled();
         tasks.add(task);
     }
 
     @Override
     public void addTask(Task<? extends T> task, Validator<? super T> validator) throws ExecutorException {
 
-        isExecutorCalled();
+        checkIfExecutorWasCalled();
         addTask(task);
         this.validator = validator;
     }
-
 
     @Override
     public void execute() {
@@ -58,18 +57,18 @@ public class ExecutorImplementation<T> implements Executor<T> {
     @Override
     public List getValidResults() throws ExecutorException{
 
-        isExecutorWasNotCalled();
+        checkIfExecutorWasNotCalled();
         return validResults;
     }
 
     @Override
     public List getInvalidResults() throws ExecutorException{
 
-        isExecutorWasNotCalled();
+        checkIfExecutorWasNotCalled();
         return inValidResults;
     }
 
-    private void isExecutorCalled() throws ExecutorException {
+    private void checkIfExecutorWasCalled() throws ExecutorException {
 
         if (isExecuted) {
 
@@ -77,7 +76,7 @@ public class ExecutorImplementation<T> implements Executor<T> {
         }
     }
 
-    private void isExecutorWasNotCalled() throws ExecutorException {
+    private void checkIfExecutorWasNotCalled() throws ExecutorException {
 
         if (!isExecuted) {
 

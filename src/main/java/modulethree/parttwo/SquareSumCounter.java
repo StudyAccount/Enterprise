@@ -57,7 +57,7 @@ public class SquareSumCounter implements SquareSum {
             }
 
             tempResults.add(sum);
-            phaser.arriveAndAwaitAdvance();
+            phaser.arrive();
         });
     }
 

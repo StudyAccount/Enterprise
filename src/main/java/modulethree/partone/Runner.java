@@ -10,7 +10,7 @@ public class Runner {
     private SemaphoreImplementation semaphore;
     private Random random = new Random();
     private static final int AVAILABLE_PERMITS = 5;
-    public static final int THREADS = 13;
+    public static final int THREADS = 4;
 
     public static void main(String[] args) {
         new Runner().test();
@@ -36,9 +36,11 @@ public class Runner {
                 int permits = random.nextInt(AVAILABLE_PERMITS);
 
                 System.out.println("Thread " + Thread.currentThread().getName() + " start waiting");
+                Thread.sleep(1000);
                 semaphore.acquire(permits);
 
                 System.out.println("Thread " + Thread.currentThread().getName() + " stop waiting");
+
                 semaphore.release(permits);
             } catch (InterruptedException e) {
 

@@ -25,7 +25,7 @@ public class SquareSumCounterTest {
         this.numberOfThreads = numberOfThreads;
         this.expectation = expectation;
     }
-//    (name = "{index}: A({0}, {1}); B({2}, {3}); distance = {4}")
+
     @Parameterized.Parameters
     public static Collection<Object[]> getData() {
         int[] a = {5, 5, 3, 4, 5, 6, 7, 8, 9};
